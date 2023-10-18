@@ -1,67 +1,79 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
 /**
  * <summary>
- * TPSƒJƒƒ‰ƒRƒ“ƒgƒ[ƒ‰[ƒNƒ‰ƒXB
- * ƒvƒŒƒCƒ„[‚ğ’Ç]‚µAƒ}ƒEƒX‚âƒAƒiƒƒOƒXƒeƒBƒbƒN‚Ì“®‚«‚É‰‚¶‚ÄƒJƒƒ‰‚ğ‰ñ“]‚³‚¹‚é‹@”\B
- * ƒvƒŒƒCƒ„[‚ÍƒJƒƒ‰‚Ì•ûŒü‚ğŒü‚­‚æ‚¤‚É’²®‚·‚é‹@”\B
+ * TPSã‚«ãƒ¡ãƒ©ã‚³ãƒ³ãƒˆãƒ­ãƒ¼ãƒ©ãƒ¼ã‚¯ãƒ©ã‚¹ã€‚
+ * ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½å¾“ã—ã€ãƒã‚¦ã‚¹ã‚„ã‚¢ãƒŠãƒ­ã‚°ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å‹•ãã«å¿œã˜ã¦ã‚«ãƒ¡ãƒ©ã‚’å›è»¢ã•ã›ã‚‹æ©Ÿèƒ½ã€‚
+ * ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¯ã‚«ãƒ¡ãƒ©ã®æ–¹å‘ã‚’å‘ãã‚ˆã†ã«èª¿æ•´ã™ã‚‹æ©Ÿèƒ½ã€‚
  * </summary>
- * §ìÒ: “nç²
+ * åˆ¶ä½œè€…: æ¸¡é‚Š
  */
 public class PlayerTPSCamera : MonoBehaviour
 {
-    /* --- ƒVƒŠƒAƒ‰ƒCƒYƒtƒB[ƒ‹ƒhˆê—— --- */
+    /* --- ã‚·ãƒªã‚¢ãƒ©ã‚¤ã‚ºãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ä¸€è¦§ --- */
 
-    [SerializeField] private Vector3 offset; // ƒvƒŒƒCƒ„[‚©‚ç‚ÌƒIƒtƒZƒbƒg
-    [SerializeField] private float sensitivity = 5.0f; // ƒJƒƒ‰‚ÌŠ´“x
-    [SerializeField] private float rotationSmoothTime = 0.1f; // ƒJƒƒ‰‚Ì‰ñ“]‚ÌƒXƒ€[ƒWƒ“ƒOŠÔ
-    [SerializeField] private float playerRotateSpeed = 5.0f; // ƒvƒŒƒCƒ„[‚Ì‰ñ“]‘¬“x
-    [SerializeField] private LayerMask collisionLayers; // ƒJƒƒ‰‚ÌÕ“Ë‚ğŒŸ’m‚·‚éƒŒƒCƒ„[
+    [SerializeField] private Vector3 offset; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+    [SerializeField] private Vector3 initialPositionOffset; // åˆæœŸä½ç½®ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆ
+    [SerializeField] private float sensitivity = 5.0f; // ã‚«ãƒ¡ãƒ©ã®æ„Ÿåº¦
+    [SerializeField] private float rotationSmoothTime = 0.1f; // ã‚«ãƒ¡ãƒ©ã®å›è»¢ã®ã‚¹ãƒ ãƒ¼ã‚¸ãƒ³ã‚°æ™‚é–“
+    [SerializeField] private float playerRotateSpeed = 5.0f; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å›è»¢é€Ÿåº¦
+    [SerializeField] private LayerMask collisionLayers; // ã‚«ãƒ¡ãƒ©ã®è¡çªã‚’æ¤œçŸ¥ã™ã‚‹ãƒ¬ã‚¤ãƒ¤ãƒ¼
 
-    /* --- ƒvƒ‰ƒCƒx[ƒgƒtƒB[ƒ‹ƒh --- */
-    private Transform playerTransform; // ƒvƒŒƒCƒ„[‚ÌTransform
-    private float yaw; // ‰¡•ûŒü‚Ì‰ñ“]Šp
-    private float pitch; // c•ûŒü‚Ì‰ñ“]Šp
-    private Vector3 rotationSmoothVelocity; // ƒXƒ€[ƒWƒ“ƒO—p‚Ì‘¬“x
-    private Vector3 currentRotation; // Œ»İ‚Ì‰ñ“]Šp
+
+    /* --- ãƒ—ãƒ©ã‚¤ãƒ™ãƒ¼ãƒˆãƒ•ã‚£ãƒ¼ãƒ«ãƒ‰ --- */
+    private Transform playerTransform; // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®Transform
+    private float yaw; // æ¨ªæ–¹å‘ã®å›è»¢è§’
+    private float pitch; // ç¸¦æ–¹å‘ã®å›è»¢è§’
+    private Vector3 rotationSmoothVelocity; // ã‚¹ãƒ ãƒ¼ã‚¸ãƒ³ã‚°ç”¨ã®é€Ÿåº¦
+    private Vector3 currentRotation; // ç¾åœ¨ã®å›è»¢è§’
 
     private void Start()
     {
-        // Playerƒ^ƒO‚ğ‚ÂƒIƒuƒWƒFƒNƒg‚ğŒŸõ‚µ‚ÄA‚»‚ÌTransform‚ğæ“¾
+        // Playerã‚¿ã‚°ã‚’æŒã¤ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’æ¤œç´¢ã—ã¦ã€ãã®Transformã‚’å–å¾—
         playerTransform = GameObject.FindWithTag("Player").transform;
+
+        // ã‚«ãƒ¼ã‚½ãƒ«ã‚’éè¡¨ç¤ºã«ã—ã€ã‚²ãƒ¼ãƒ ä¸­ã«å‹•ã‹ãªã„ã‚ˆã†ã«å›ºå®š
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
+        // åˆæœŸã‚«ãƒ¡ãƒ©ä½ç½®ã®è¨­å®š
+        transform.position = playerTransform.position + initialPositionOffset;
+
+        // ã‚«ãƒ¡ãƒ©ã®è¡çªå‡¦ç†ã‚’å®Ÿè¡Œã—ã¦ã€ã‚«ãƒ¡ãƒ©ãŒã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ã‚ã‚Šè¾¼ã‚“ã§ã„ãªã„ã‹ç¢ºèª
+        HandleCameraCollision();
     }
 
     private void Update()
     {
-        // ƒJƒƒ‰‚Ì‰ñ“]ˆ—
+        // ã‚«ãƒ¡ãƒ©ã®å›è»¢å‡¦ç†
         HandleCameraRotation();
-        // ƒvƒŒƒCƒ„[‚ÌŒü‚«‚ğ’²®‚·‚éˆ—
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‘ãã‚’èª¿æ•´ã™ã‚‹å‡¦ç†
         HandlePlayerRotation();
-        // ƒJƒƒ‰‚ÌÕ“Ëˆ—
+        // ã‚«ãƒ¡ãƒ©ã®è¡çªå‡¦ç†
         HandleCameraCollision();
     }
 
     /// <summary>
-    /// ƒJƒƒ‰‚Ì‰ñ“]‚ğˆ—
+    /// ã‚«ãƒ¡ãƒ©ã®å›è»¢ã‚’å‡¦ç†
     /// </summary>
     private void HandleCameraRotation()
     {
-        // ƒ}ƒEƒX“ü—Í‚ÉŠî‚Ã‚­Šp“x‚ÌŒvZ
+        // ãƒã‚¦ã‚¹å…¥åŠ›ã«åŸºã¥ãè§’åº¦ã®è¨ˆç®—
         yaw += Input.GetAxis("Mouse X") * sensitivity;
         pitch -= Input.GetAxis("Mouse Y") * sensitivity;
-        pitch = Mathf.Clamp(pitch, -40, 85); // c‚ÌŠp“x‚Ì§ŒÀ
+        pitch = Mathf.Clamp(pitch, -40, 85); // ç¸¦ã®è§’åº¦ã®åˆ¶é™
 
-        // ƒXƒ€[ƒWƒ“ƒO‚ğ—p‚¢‚ÄƒJƒƒ‰‚Ì‰ñ“]‚ğXV
+        // ã‚¹ãƒ ãƒ¼ã‚¸ãƒ³ã‚°ã‚’ç”¨ã„ã¦ã‚«ãƒ¡ãƒ©ã®å›è»¢ã‚’æ›´æ–°
         Vector3 targetRotation = new Vector3(pitch, yaw);
         currentRotation = Vector3.SmoothDamp(currentRotation, targetRotation, ref rotationSmoothVelocity, rotationSmoothTime);
         transform.eulerAngles = currentRotation;
 
-        // ƒJƒƒ‰‚ÌˆÊ’u‚ğXV
-        transform.position = playerTransform.position - transform.forward * offset.magnitude + offset.y * transform.up;
+        // ã‚«ãƒ¡ãƒ©ã®ä½ç½®ã‚’æ›´æ–°
+        transform.position = AdjustCameraPositionForLookingUp();
     }
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚ªƒJƒƒ‰‚Ì•ûŒü‚ÉŒü‚­‚æ‚¤‚É’²®
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒã‚«ãƒ¡ãƒ©ã®æ–¹å‘ã«å‘ãã‚ˆã†ã«èª¿æ•´
     /// </summary>
     private void HandlePlayerRotation()
     {
@@ -71,15 +83,41 @@ public class PlayerTPSCamera : MonoBehaviour
     }
 
     /// <summary>
-    /// ƒJƒƒ‰‚Æ‘¼‚ÌƒIƒuƒWƒFƒNƒg‚Æ‚ÌÕ“Ë‚ğˆ—
+    /// ã‚«ãƒ¡ãƒ©ã¨ä»–ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã®è¡çªã‚’å‡¦ç†
     /// </summary>
     private void HandleCameraCollision()
     {
         RaycastHit hit;
-        // ƒJƒƒ‰‚ª‰½‚©‚µ‚ç‚ÌƒIƒuƒWƒFƒNƒg‚ÉÚG‚µ‚Ä‚¢‚éê‡AƒJƒƒ‰‚ğƒvƒŒƒCƒ„[‚É‹ß‚Ã‚¯‚é
-        if (Physics.Raycast(playerTransform.position, -transform.forward, out hit, offset.magnitude, collisionLayers))
+
+        // ã‚«ãƒ¡ãƒ©ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¸ã®ãƒ™ã‚¯ãƒˆãƒ«ã‚’è¨ˆç®—
+        Vector3 dirFromPlayerToCamera = transform.position - playerTransform.position;
+        float distance = offset.magnitude; // ã‚«ãƒ¡ãƒ©ã¨ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¨ã®é–“ã®è·é›¢
+
+        // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‹ã‚‰ã‚«ãƒ¡ãƒ©æ–¹å‘ã«ãƒ¬ã‚¤ã‚’é£›ã°ã—ã€è¡çªã‚’æ¤œå‡º
+        if (Physics.Raycast(playerTransform.position, dirFromPlayerToCamera.normalized, out hit, distance, collisionLayers))
         {
-            transform.position = hit.point + hit.normal * 0.5f; // ­‚µƒIƒtƒZƒbƒg‚ğ‰Á‚¦‚ÄƒJƒƒ‰‚ğˆø‚­
+            // ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒéå¸¸ã«è¿‘ãã«ã„ã‚‹å ´åˆã€ã‚ºãƒ¼ãƒ åŠ¹æœã¯é©ç”¨ã—ãªã„
+            if (hit.distance > 1f)
+            {
+                transform.position = hit.point;
+            }
         }
+        else
+        {
+            // è¡çªãŒãªã„å ´åˆã¯ã€ã‚ªãƒªã‚¸ãƒŠãƒ«ã®ã‚«ãƒ¡ãƒ©ä½ç½®ã‚’ç¶­æŒ
+            transform.position = playerTransform.position + dirFromPlayerToCamera.normalized * distance;
+        }
+    }
+
+    // ã‚«ãƒ¡ãƒ©ã®ä½ç½®ã‚’çœŸä¸Šå‘ãæ™‚ã«èª¿æ•´ã™ã‚‹ãŸã‚ã®ãƒ¡ã‚½ãƒƒãƒ‰
+    private Vector3 AdjustCameraPositionForLookingUp()
+    {
+        // pitchãŒ65ä»¥ä¸Šï¼ˆçœŸä¸Šã«è¿‘ã„ï¼‰ã®å ´åˆã€ã‚«ãƒ¡ãƒ©ã®ä½ç½®ã‚’è¿‘ã¥ã‘ã‚‹
+        if (pitch > 65f)
+        {
+            float adjustmentFactor = 1.0f - (pitch - 65f) / 20f;  // pitchãŒ65ã€œ85ã®ç¯„å›²ã§0ã‹ã‚‰1ã«å¤‰åŒ–ã™ã‚‹ãƒ•ã‚¡ã‚¯ã‚¿ãƒ¼
+            return playerTransform.position - transform.forward * offset.magnitude * adjustmentFactor + offset.y * transform.up;
+        }
+        return playerTransform.position - transform.forward * offset.magnitude + offset.y * transform.up;
     }
 }
