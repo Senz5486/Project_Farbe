@@ -144,7 +144,7 @@ public class CommonUtilsSaveSystem : MonoBehaviour
     {
         if (slot < 1 || slot > NumSaveSlots)
         {
-            CommonUtilsDebugUISystem.Log(CommonUtilsMessageConstants.ERROR_SAVE_SLOTINVALID);
+            CommonUtilsDebugUISystem.Log(CommonUtilsMessageConstants.ERROR_SAVE_SLOTINVALID); //スロット番号が無効な時のメッセージを表示
             return null;
         }
 
@@ -154,18 +154,26 @@ public class CommonUtilsSaveSystem : MonoBehaviour
         {
             BinaryFormatter formatter = new BinaryFormatter();
 
-            using (FileStream stream = new FileStream(path, FileMode.Open))
+            try
             {
-                byte[] encryptedData = (byte[])formatter.Deserialize(stream);
-                byte[] decryptedData = Decrypt(encryptedData);
+                using (FileStream stream = new FileStream(path, FileMode.Open))
+                {
+                    byte[] encryptedData = (byte[])formatter.Deserialize(stream);
+                    byte[] decryptedData = Decrypt(encryptedData);
 
-                CommonUtilsGameSaveData gameData = (CommonUtilsGameSaveData)ByteArrayToObject(decryptedData);
-                return gameData;
+                    CommonUtilsGameSaveData gameData = (CommonUtilsGameSaveData)ByteArrayToObject(decryptedData);
+                    return gameData;
+                }
+            }
+            catch //セーブデータが読み込めなかった時の処理
+            {
+                CommonUtilsDebugUISystem.Log(CommonUtilsMessageConstants.ERROR_SAVE_DATABROKEN); //セーブデータ破損のメッセージを表示
+                return null;
             }
         }
         else
         {
-            CommonUtilsDebugUISystem.Log(CommonUtilsMessageConstants.ERROR_SAVE_DATANOTEXIST);
+            CommonUtilsDebugUISystem.Log(CommonUtilsMessageConstants.ERROR_SAVE_DATANOTEXIST); //セーブデータが無いときの初期を表示
             return null;
         }
     }
