@@ -11,17 +11,26 @@ public class CommonUtilsGameSettings
     // デバックモード中かどうかのフラグ
     public bool IsDebugMode { get; set; }
 
+    //音量設定-マスターボリューム
     public float MasterVolume { get; set; }
+
+    //音量設定-SEボリューム
     public float SEVolume { get; set; }
+
+    //音量設定-BGMボリューム
     public float BGMVolume { get; set; }
+
+    //ビデオ設定-解像度
+    public string ScreenResolution { get; set; }
 
     // コンストラクタで初期値を設定
     public CommonUtilsGameSettings()
     {
-        IsFPSShown = false;
-        IsDebugMode = false;
-        MasterVolume = 0.5f;
-        SEVolume = 0.5f;
-        BGMVolume = 0.5f;
+        IsFPSShown = CommonUtilsValueConstants.DEFAULT_FPSSHOWN;
+        IsDebugMode = CommonUtilsValueConstants.DEFAULT_DEBUGMODE;
+        MasterVolume = CommonUtilsValueConstants.DEFAULT_MASTERVOLUME;
+        SEVolume = CommonUtilsValueConstants.DEFAULT_SEVOLUME;
+        BGMVolume = CommonUtilsValueConstants.DEFAULT_BGMVOLUME;
+        ScreenResolution = CommonUtilsValueConstants.DEFAULT_RESOLUTION;
     }
 }
