@@ -319,7 +319,7 @@ Transform:
   m_GameObject: {fileID: 488711929}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 40, y: 1, z: 40}
+  m_LocalScale: {x: 80, y: 1, z: 80}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1183,7 +1183,7 @@ Animator:
   m_GameObject: {fileID: 8928037059357516918}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 7966d979d9982a743a30e3b75a402b94, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 18171ef92cabfb245926d4dd484a2aa6, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -3338,7 +3338,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 5
   jumpHeight: 2
-  gravity: 9.81
+  gravity: 16
   groundLayer:
     serializedVersion: 2
     m_Bits: 0
@@ -3348,6 +3348,8 @@ MonoBehaviour:
   maxDashTime: 5
   dashRecoveryRate: 1
   maxJumpCount: 2
+  currentDashTime: 0
+  canDash: 1
 --- !u!143 &8928037059357516920
 CharacterController:
   m_ObjectHideFlags: 0

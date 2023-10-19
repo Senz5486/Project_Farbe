@@ -28,8 +28,10 @@ public class PlayerController : MonoBehaviour
     private Vector3 velocity;                              // 現在のキャラクターの速度
     private bool isGrounded;                               // キャラクターが地面に接触しているか
     private int currentJumpCount = 0;                      // 現在のジャンプ回数
-    private float currentDashTime;                         // 現在のダッシュ残り時間
+    [SerializeField]private float currentDashTime;                         // 現在のダッシュ残り時間
     private CharacterController controller;                // キャラクターコントローラーのリファレンス
+    private Animator playerAnimator;                       // アニメーションを制御するためのAnimator
+    [SerializeField] private bool canDash = true;                           // ダッシュが可能かを示すブール変数
 
     /* --- カプセル化 --- */
 
@@ -41,6 +43,8 @@ public class PlayerController : MonoBehaviour
     {
         controller = this.GetComponent<CharacterController>();
         currentDashTime = maxDashTime;
+        // Animatorコンポーネントの取得
+        playerAnimator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -53,6 +57,8 @@ public class PlayerController : MonoBehaviour
         HandleDashing();
         //急斜面での滑りを処理
         HandleSliding();
+        // アニメーションの状態を更新
+        UpdateAnimations();
     }
 
     /// <summary>
@@ -101,12 +107,21 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     private void HandleDashing()
     {
-        // ダッシュキーが押されていて、ダッシュの残り時間がある場合、ダッシュ
-        if (Input.GetKey(KeyCode.LeftShift) && currentDashTime > 0)
+        if (canDash && currentDashTime <= 0)
+        {
+            canDash = false; // ダッシュの時間が0になったので、次のダッシュが不可能になる
+        }
+        if (!canDash && currentDashTime >= maxDashTime)
+        {
+            canDash = true; // ダッシュの時間が最大に達したので、再びダッシュが可能になる
+        }
+        // ダッシュキーが押されていて、ダッシュの残り時間がある場合、そしてダッシュが可能な場合、ダッシュ
+        if (Input.GetKey(KeyCode.LeftShift) && currentDashTime > 0 && canDash)
         {
             Vector3 dashDirection = transform.forward * dashSpeedMultiplier;
             controller.Move(dashDirection * Time.deltaTime);
             currentDashTime -= Time.deltaTime;
+ 
         }
         else
         {
@@ -146,5 +161,18 @@ public class PlayerController : MonoBehaviour
             }
         }
         return false;
+    }
+    /// <summary>
+    /// アニメーションの状態を更新するメソッド
+    /// </summary>
+    private void UpdateAnimations()
+    {
+        // IsRunを設定
+        bool isRunning = Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0;
+        playerAnimator.SetBool("IsRun", isRunning);
+
+        // IsDashを設定
+        bool isDashing = Input.GetKey(KeyCode.LeftShift) && canDash;
+        playerAnimator.SetBool("IsDash", isDashing);
     }
 }
