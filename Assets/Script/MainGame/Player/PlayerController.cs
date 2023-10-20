@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
     {
         // 地面に接しているかの判定
         isGrounded = controller.isGrounded;
+
         // 地面に接しているときの速度を初期化
         if (isGrounded && velocity.y < 0)
         {
@@ -76,13 +77,27 @@ public class PlayerController : MonoBehaviour
             currentJumpCount = 0;
         }
 
-        // キーボードの入力を取得し、それを基にキャラクターを移動
+        // キーボードの入力を取得
         float moveX = Input.GetAxis("Horizontal");
         float moveZ = Input.GetAxis("Vertical");
-        Vector3 move = transform.right * moveX + transform.forward * moveZ;
-        controller.Move(move * speed * Time.deltaTime);
-    }
 
+        // カメラの方向を取得し、Y軸を削除
+        Vector3 cameraForward = Vector3.Scale(Camera.main.transform.forward, new Vector3(1, 0, 1)).normalized;
+        Vector3 cameraRight = Vector3.Scale(Camera.main.transform.right, new Vector3(1, 0, 1)).normalized;
+
+        // 移動方向を計算
+        Vector3 moveDirection = moveZ * cameraForward + moveX * cameraRight;
+        moveDirection.Normalize();
+
+        // 移動
+        controller.Move(moveDirection * speed * Time.deltaTime);
+
+        // キャラクターの向きを変更
+        if (moveDirection != Vector3.zero) // 移動がある場合のみキャラクターの向きを変える
+        {
+            transform.forward = moveDirection;
+        }
+    }
     /// <summary>
     /// ジャンプと二段ジャンプ処理
     /// </summary>
