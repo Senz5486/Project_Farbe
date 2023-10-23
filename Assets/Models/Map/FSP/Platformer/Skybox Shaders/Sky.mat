@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Sky
-  m_Shader: {fileID: 4800000, guid: e62beaebaf9ec4da8ae22bfefe5cbb79, type: 3}
+  m_Shader: {fileID: 4800000, guid: 1b1032babd6d64921a50506aa07cf3b2, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -96,8 +96,8 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 0.13679248, g: 1, b: 0.6931974, a: 1}
-    - _Color2: {r: 0.47472408, g: 0.7924528, b: 0.73392385, a: 1}
+    - _Color1: {r: 1, g: 0.880132, b: 0, a: 1}
+    - _Color2: {r: 1, g: 0.89767873, b: 0, a: 1}
     - _Color3: {r: 0.38643643, g: 0.49056602, b: 0.47138426, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SkyColor1: {r: 0.36999997, g: 0.52, b: 0.73, a: 0}

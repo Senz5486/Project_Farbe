@@ -25,6 +25,16 @@ public static class CommonUtilsMessageConstants
     public const string ERROR_SAVE_DATANOTEXIST = DEBUG_PREFIX + "このスロットのセーブデータは存在しません";
     // セーブデータが読み込めない
     public const string ERROR_SAVE_DATABROKEN = DEBUG_PREFIX + "セーブデータが破損しています";
+
+    /// <summary>
+    /// エディター用メッセージ一覧
+    /// </summary>
+    //PathEditorでMainGameObjectControllerがアタッチされてるオブジェクトが選択されていない時
+    public const string EDITOR_PATH_NEEDATTACHOBJECT = "MainGameObjectController が設定されているオブジェクト選択してください";
+    //PathEditorでパスを追加するボタンのメッセージ
+    public const string EDITOR_PATH_ADDPATH = "パスを追加";
+    //PathEditorでパスを削除するボタンのメッセージ
+    public const string EDITOR_PATH_REMOVEPATH = "最後に追加したパスを削除";
     /// <summary>
     /// ゲーム用メッセージ一覧
     /// </summary>

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1549535825}
-  m_IndirectSpecularColor: {r: 0.47564065, g: 0.5548517, b: 0.68610865, a: 1}
+  m_IndirectSpecularColor: {r: 0.99999905, g: 0.7654956, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -271,6 +271,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 748a61d3e8d0f0e4980cdbcbe707d76a, type: 3}
+--- !u!1 &162818459 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4370146306044955937, guid: d188ee09c9f29274ba947ee9a32ef288, type: 3}
+  m_PrefabInstance: {fileID: 1300649251}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &181536681 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2654650144114493894, guid: 748a61d3e8d0f0e4980cdbcbe707d76a, type: 3}
@@ -915,6 +920,25 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8165101474785434944, guid: d188ee09c9f29274ba947ee9a32ef288, type: 3}
   m_PrefabInstance: {fileID: 1300649251}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1036869592
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 162818459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36c6821f4777c354abeab2efa69f749f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+  type: 0
+  paths: []
+  rotationSpeed: 0
+  entry: {fileID: 0}
+  exit: {fileID: 0}
+  isBidirectional: 0
 --- !u!1001 &1070685646
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1123,7 +1147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8165101474785434944, guid: d188ee09c9f29274ba947ee9a32ef288, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.34000003
+      value: 1.04
       objectReference: {fileID: 0}
     - target: {fileID: 8165101474785434944, guid: d188ee09c9f29274ba947ee9a32ef288, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1157,7 +1181,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5488635545583694547, guid: d188ee09c9f29274ba947ee9a32ef288, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: d188ee09c9f29274ba947ee9a32ef288, type: 3}
 --- !u!4 &1301311778 stripped
 Transform:
